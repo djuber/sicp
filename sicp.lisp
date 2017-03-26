@@ -145,3 +145,84 @@ radicand and the old guess"
 ;; computing n!, the number of steps required grows linearly with n.  Such
 ;; a process is called a "linear iterative process".
 
+;; 1.2.2 tree recursion
+
+(defun fib (n)
+  (cond ((= n 0) 0)
+	((= n 1) 1)
+	(:else (+ (fib (- n 1))
+		  (fib (- n 2))))))
+
+((lambda () (trace fib) (fib 5) (untrace fib)))
+;; trace does show what looks like the tree diagram in 1.2.2
+
+;; fib(n) is the closest integer to phi^n/sqrt(5)
+(defconstant +phi+ (/ (1+ (cl:sqrt 5.0d0)) 2))
+
+(defun fast-fib (n)
+  (round (/ (cl:expt +phi+ n) (cl:sqrt 5.0d0))))
+
+(defun fib (n)
+  (labels ((iter (a b count)
+	     (if (zerop count)
+		 b
+		 (iter (+ a b) a (- count 1)))))
+    (iter 1 0 n)))
+
+
+;; side-note - machine precision, even with doubles, becomes a
+;; problem when n is large enough
+(loop :for i :from 0
+      :until (not (zerop (- (fib i) (fast-fib i))))
+      :finally (return i))
+ ; => 71 (7 bits, #x47, #o107, #b1000111)
+
+(fib 71)
+ ; => 308061521170129 (49 bits, #x1182E2989CED1)
+(fast-fib 71)
+ ; => 308061521170130, -0.3125d0
+
+;; example : counting change
+;; how many ways can we make change for a dollar using half-dollars, quarters,
+;; dimes, nickels, and pennies
+
+
+;; my approach from the problem description
+(defun change-for (amount coins)
+  (cond
+    ((zerop amount) 1) 
+    ((null coins) 0)  ;; this is the 'kinds-of-coins 0' test
+    ((< amount (first coins)) (change-for amount (rest coins)))
+    (:else (+
+	    (change-for (- amount (first coins)) coins)
+	    (change-for amount (rest coins))))))
+
+(change-for 100 (list 50 25 10 5 1))
+					; => 292 (9 bits, #x124)
+(change-for 100 (list 5 25 10 50 1))
+ ; => 292 (9 bits, #x124)
+(change-for 100 (list 50 10 1 5 25))
+ ; => 292 (9 bits, #x124)
+;; order of the coins doesn't matter.
+
+;; the authors approach
+
+(defun count-change (amount)
+  (cc amount 5))
+
+(defun cc (amount kinds-of-coins)
+  (cond ((= amount 0) 1)
+	((or (< amount 0) (= kinds-of-coins 0)) 0)
+	(:else (+ (cc amount (- kinds-of-coins 1))
+		  (cc (- amount (first-denomination kinds-of-coins))
+		      kinds-of-coins)))))
+
+(defun first-denomination (kinds-of-coins)
+  (cond ((= kinds-of-coins 1) 1)
+	((= kinds-of-coins 2) 5)
+	((= kinds-of-coins 3) 10)
+	((= kinds-of-coins 4) 25)
+	((= kinds-of-coins 5) 50)))
+
+(count-change 100)
+ ; => 292 (9 bits, #x124)
