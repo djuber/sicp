@@ -1,0 +1,6 @@
+
+Working through exercises in Structure and Interpretation of Computer Programs.
+
+Exercises handled in common lisp.
+
+All code lives in the "SICP" package, and functions defined in the text are exported. Conflicts with common-lisp package have shadow declarations in the package.
