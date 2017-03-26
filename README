@@ -4,5 +4,3 @@ Working through exercises in Structure and Interpretation of Computer Programs.
 Exercises handled in common lisp.
 
 All code lives in the "SICP" package, and functions defined in the text are exported. Conflicts with common-lisp package have shadow declarations in the package.
-
-Had to abort emacs during testing of exercise 1.7. Moved the recovery file to "rescue"

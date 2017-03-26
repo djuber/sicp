@@ -5,11 +5,13 @@
    cl:abs
    cl:sqrt
    )
+  ;; friends alphabetize their exports
   (:export
    :abs
    :average
    :area
    :circumference
+   :double
    :pi
    :radius
    :size
@@ -108,6 +110,38 @@ radicand and the old guess"
 (sqrt 9)
  ; => 3.00009155413138d0
 
-
 (cl:sqrt 9)
  ; => 3.0
+
+;; 1.1.8 procedures as black box abstractions
+
+;; double introduced during a discussion of equivalent formulations for square
+(defun double (x) (+ x x))
+
+;; 1.2 Procedures and the processes they generate
+
+;; 1.2.1 Linear Recursion and Iteration
+
+;; simple recursive definition of factorial
+(defun fact-1.2.1 (n)
+  (if (= n 0)
+      1
+      (* n (fact-1.2.1 (1- n)))))
+
+;; iterative definition
+(defun fact-1.2.1.a (n)
+  (labels ((fact-iter (acc count)
+	   (if (> count n)
+	       acc
+	       (fact-iter (* acc count) (+ 1 count)))))
+    (fact-iter 1 1)))
+
+
+;;  In general, an iterative process is one whose state can be
+;; summarized by a fixed number of "state variables", together with a
+;; fixed rule that describes how the state variables should be updated as
+;; the process moves from state to state and an (optional) end test that
+;; specifies conditions under which the process should terminate.  In
+;; computing n!, the number of steps required grows linearly with n.  Such
+;; a process is called a "linear iterative process".
+
