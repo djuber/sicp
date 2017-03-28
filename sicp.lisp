@@ -20,7 +20,7 @@
    :sum-of-squares
    )
   (:documentation "SICP Solutions"))
-  
+
 (in-package :sicp)
 
 ;; 1.1.2 naming and the environment
@@ -70,7 +70,7 @@
 
 
 (defun improve (guess x)
-  "a guess is improved by averaging it with the quotient of the 
+  "a guess is improved by averaging it with the quotient of the
 radicand and the old guess"
   (average guess (/ x guess)))
 
@@ -101,16 +101,16 @@ radicand and the old guess"
       (sqrt-iter 1.0d0)))) ; use a double here.
 
 ;; test that this is correct
-(< (- (sqrt 2)(cl:sqrt 2)) sqrt-tolerance)
+; (< (- (sqrt 2)(cl:sqrt 2)) sqrt-tolerance)
  ; => T
 
-(< (- (sqrt 3)(cl:sqrt 3)) sqrt-tolerance)
+; (< (- (sqrt 3)(cl:sqrt 3)) sqrt-tolerance)
  ; => T
 
-(sqrt 9)
+; (sqrt 9)
  ; => 3.00009155413138d0
 
-(cl:sqrt 9)
+; (cl:sqrt 9)
  ; => 3.0
 
 ;; 1.1.8 procedures as black box abstractions
@@ -153,7 +153,7 @@ radicand and the old guess"
 	(:else (+ (fib (- n 1))
 		  (fib (- n 2))))))
 
-((lambda () (trace fib) (fib 5) (untrace fib)))
+;; ((lambda () (trace fib) (fib 5) (untrace fib)))
 ;; trace does show what looks like the tree diagram in 1.2.2
 
 ;; fib(n) is the closest integer to phi^n/sqrt(5)
@@ -172,14 +172,14 @@ radicand and the old guess"
 
 ;; side-note - machine precision, even with doubles, becomes a
 ;; problem when n is large enough
-(loop :for i :from 0
-      :until (not (zerop (- (fib i) (fast-fib i))))
-      :finally (return i))
+ ;; (loop :for i :from 0
+ ;;      :until (not (zerop (- (fib i) (fast-fib i))))
+ ;;      :finally (return i))
  ; => 71 (7 bits, #x47, #o107, #b1000111)
 
-(fib 71)
+; (fib 71)
  ; => 308061521170129 (49 bits, #x1182E2989CED1)
-(fast-fib 71)
+; (fast-fib 71)
  ; => 308061521170130, -0.3125d0
 
 ;; example : counting change
@@ -190,18 +190,18 @@ radicand and the old guess"
 ;; my approach from the problem description
 (defun change-for (amount coins)
   (cond
-    ((zerop amount) 1) 
+    ((zerop amount) 1)
     ((null coins) 0)  ;; this is the 'kinds-of-coins 0' test
     ((< amount (first coins)) (change-for amount (rest coins)))
     (:else (+
 	    (change-for (- amount (first coins)) coins)
 	    (change-for amount (rest coins))))))
 
-(change-for 100 (list 50 25 10 5 1))
+; (change-for 100 (list 50 25 10 5 1))
 					; => 292 (9 bits, #x124)
-(change-for 100 (list 5 25 10 50 1))
+; (change-for 100 (list 5 25 10 50 1))
  ; => 292 (9 bits, #x124)
-(change-for 100 (list 50 10 1 5 25))
+; (change-for 100 (list 50 10 1 5 25))
  ; => 292 (9 bits, #x124)
 ;; order of the coins doesn't matter.
 
@@ -224,5 +224,9 @@ radicand and the old guess"
 	((= kinds-of-coins 4) 25)
 	((= kinds-of-coins 5) 50)))
 
-(count-change 100)
+; (count-change 100)
  ; => 292 (9 bits, #x124)
+
+;; 1.2.3 orders of growth
+
+;; see exercises 1.14 and 1.15
