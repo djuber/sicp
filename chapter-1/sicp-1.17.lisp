@@ -28,7 +28,16 @@
   "halve a number by right shift"
   (ash x -1))
 
+;; ex 1.17 log time
 (defun mult (x y)
+  (labels ((iter (a b)
+	     (cond ((= b 1) a)
+		   ((evenp b) (iter (double a) (halve b)))
+		   (:else (+ a (iter x (1- b)))))))
+    (iter x y)))
+
+;; ex-1.18 is constant space, log time
+(defun fast-mult (x y)
   (labels ((iter (b c a)
 	     (cond ((= c 0) a)
 		   ((evenp c) (iter (double b) (halve c) a))
