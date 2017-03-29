@@ -4,6 +4,7 @@
    cl:pi
    cl:abs
    cl:sqrt
+   cl:expt
    )
   ;; friends alphabetize their exports
   (:export
@@ -12,6 +13,7 @@
    :area
    :circumference
    :double
+   :expt
    :pi
    :radius
    :size
@@ -230,3 +232,31 @@ radicand and the old guess"
 ;; 1.2.3 orders of growth
 
 ;; see exercises 1.14 and 1.15
+
+
+;; 1.2.4 Exponentiation
+
+(defun expt* (b n)
+  "first approximation of a natural exponent. N must be a whole number."
+  (if (= n 0)
+      1
+      (* b (expt b (- n 1)))))
+
+(defun expt** (b n)
+  "rewrite expt* as an iteration"
+  (labels ((iter (counter product)
+	     (if (zerop counter)
+		 product
+		 (iter (1- counter) (* b product)))))
+    (iter n 1)))
+
+
+(defun expt (b n)
+  (cond 
+    ((zerop n) 1)
+    ((evenp n) (square (expt b (/ n 2))))
+    (:else (* b (expt b (- n 1))))))
+
+
+
+
