@@ -5,6 +5,7 @@
    cl:abs
    cl:sqrt
    cl:expt
+   cl:gcd
    )
   ;; friends alphabetize their exports
   (:export
@@ -14,6 +15,7 @@
    :circumference
    :double
    :expt
+   :gcd
    :pi
    :radius
    :size
@@ -252,11 +254,28 @@ radicand and the old guess"
 
 
 (defun expt (b n)
-  (cond 
+  (cond
     ((zerop n) 1)
     ((evenp n) (square (expt b (/ n 2))))
     (:else (* b (expt b (- n 1))))))
 
+;; 1.2.5 Greatest Common Divisor
 
+(defun gcd (a b)
+  (if (= b 0)
+      a
+      (gcd b (mod a b))))
 
+;; 1.2.6 Primality tests.
 
+(defun smallest-divisor (n)
+  (find-divisor n 2))
+
+;; quick optimization is possible by omitting evens
+(defun find-divisor (n test-divisor)
+  (cond ((> (square test-divisor) n) n)
+	((divides? test-divisor n) test-divisor)
+	(:else (find-divisor n (1+ test-divisor)))))
+
+(defun divides? (a b)
+  (zerop (mod b a)))
