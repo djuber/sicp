@@ -279,3 +279,16 @@ radicand and the old guess"
 
 (defun divides? (a b)
   (zerop (mod b a)))
+
+;; fermat test for primality
+
+(defun expmod (base expt modulus)
+  "calculate (mod (expt bas expt) modulus)"
+  (cond ((= expt 0) 1)
+	((evenp expt)
+	 (mod (square (expmod base (/ expt 2) modulus))
+	     modulus))
+	(:else
+	 (mod (* base (expmod base (- expt 1) modulus))
+	     modulus))))
+
