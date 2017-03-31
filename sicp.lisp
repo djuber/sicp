@@ -280,6 +280,12 @@ radicand and the old guess"
 (defun divides? (a b)
   (zerop (mod b a)))
 
+
+(defun prime? (n)
+  "this is a slow way to do it."
+  (= n (smallest-divisor n)))
+
+
 ;; fermat test for primality
 
 (defun expmod (base expt modulus)
@@ -292,3 +298,16 @@ radicand and the old guess"
 	 (mod (* base (expmod base (- expt 1) modulus))
 	     modulus))))
 
+
+(defun fermat-test (n)
+    (flet ((try-it (a)
+	     (= (expmod a n n) a)))
+      (try-it (+ 1 (random (- n 1))))))
+
+(defun fast-prime? (n times)
+  (cond ((= times 0) T)
+	((fermat-test n) (fast-prime? n (1- times)))
+	(:else nil)))
+
+;; (defun prime? (n)
+;;   (fast-prime? n (isqrt n)))
