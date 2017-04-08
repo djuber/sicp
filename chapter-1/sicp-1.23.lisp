@@ -32,7 +32,7 @@
 
 
 (defun prime? (n)
-  "this is a faster way to do it, since smallest-divisor is better."
+  "this is a faster way to do it, since this smallest-divisor is better."
   (= n (smallest-divisor n)))
 
 #|
@@ -65,7 +65,6 @@
 1000003 : processor-cycles: 89004
 1000033 : processor-cycles: 90141
 1000037 : processor-cycles: 90198
-
 
 This is very close to 2:1, to wit
 
