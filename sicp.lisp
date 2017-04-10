@@ -151,7 +151,7 @@ radicand and the old guess"
 
 ;; 1.2.2 tree recursion
 
-(defun fib (n)
+(defun fib* (n)
   (cond ((= n 0) 0)
 	((= n 1) 1)
 	(:else (+ (fib (- n 1))
