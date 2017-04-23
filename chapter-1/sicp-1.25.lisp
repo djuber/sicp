@@ -19,7 +19,7 @@
 
 This is clearly slower (increasing the size of the exponent is the best way to see that.
 
-SICP> (time ( expmod* 101 11234 41))
+Sicp> (time ( expmod* 101 11234 41))
 Evaluation took:
   0.001 seconds of real time
   0.000000 seconds of total run time (0.000000 user, 0.000000 system)

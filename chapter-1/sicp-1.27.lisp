@@ -37,10 +37,12 @@
 		   (expmod a n n)))
 	      (loop for i from 1 to (1- n) collect i))))
 
-(carmichael-test 561)
+
 
 (defun ex1.27 ()
   (loop for i from 1 to 10000
 	when (carmichael-test i)
-	  collect i))
- ; => (561 1105 1729 2465 2821 6601 8911)
+	  collect (cons i (fast-prime? i (floor (log i))))))
+
+(ex1.27)
+ ; => ((561 . T) (1105 . T) (1729 . T) (2465 . T) (2821 . T) (6601 . T) (8911 . T))
